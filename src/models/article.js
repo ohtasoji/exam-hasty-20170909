@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body'];
+    return ['title', 'body','create_at','updated_at'];
   }
 
   static all() {
@@ -21,6 +21,10 @@ class Article {
       return articles;
     });
   }
+
+
+  
+
 
   static get(id) {
     return db.query(
