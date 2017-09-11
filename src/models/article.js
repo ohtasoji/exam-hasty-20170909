@@ -61,6 +61,13 @@ class Article {
       return this.create();
     }
   }
+  created_at() {
+    if (create) {
+      parseInt( new Date() / 1000 )
+    }
+    return
+  }
+
 
   update() {
     return db.query(
