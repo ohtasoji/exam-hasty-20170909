@@ -18,7 +18,7 @@ CREATE TRIGGER
 
 CREATE TRIGGER
         articles_update_trigger
-    BEFORE INSERT ON
+    BEFORE UPDATE ON
         articles
     FOR EACH ROW
     SET
