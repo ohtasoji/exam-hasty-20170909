@@ -1,0 +1,10 @@
+extends layout.pug
+
+block content
+  form(action=`/${article.id}/?_method=put` method="post")
+    div
+      input(type="text" name="title")
+    div
+      textarea(name="body")  #{article.data.body}
+    div
+      button(type="submit") 修正

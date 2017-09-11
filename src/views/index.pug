@@ -4,4 +4,5 @@ block content
   ul
     for article in articles
       li
-        a(href=`/${article.id}`)= article.title
+        for article in articles
+          a(href=`/${article.data.id}`) #{article.data.title}
