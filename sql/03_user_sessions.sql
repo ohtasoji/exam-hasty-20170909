@@ -1,0 +1,4 @@
+CREATE TABLE `user_sessions` (
+  `id` VARCHAR(36) NOT NULL PRIMARY KEY,
+  `user_id` INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

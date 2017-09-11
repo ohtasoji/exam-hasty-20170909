@@ -3,6 +3,9 @@ const multer = require('multer');
 let upload = multer({
   storage: multer.memoryStorage(),
 });
+const auth = require('../filters/auth');
+const UserSession = require('../models/user_session');
+const User = require('../models/user');
 
 module.exports = (app) => {
   /*
@@ -19,11 +22,41 @@ module.exports = (app) => {
         res.status(500).send('Error');
       });
   });
+  app.get('/signup', (req, res) => {
+    res.render('signup');
+  });
+
+  app.post('/signup', (req, res) => {
+    User.signup(req.body.email, req.body.password).then(user => {
+       res.redirect('/login');
+    }).catch(error => res.redirect('/login'));
+  });
+
+  app.get('/login', (req, res) => {
+    res.render('login');
+  });
+
+  app.post('/login', (req, res) => {
+    User.authenticate(req.body.email, req.body.password).then(user => {
+      return new UserSession({ user_id: user.id });
+    }).then(session => {
+      res.cookie('session_id', session.id, {
+        path: '/',
+        httpOnly: true,
+        expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)),
+        signed: true,
+      });
+      res.redirect('/');
+    }).catch(error => {
+      res.redirect('/login');
+      console.log(error);
+    });
+  });
 
   /*
    * 新規作成画面
    */
-  app.get('/new', (req, res) => {
+  app.get('/new', auth, (req, res) => {
     let article = new Article();
     res.render('new', { article: article });
   });
@@ -31,7 +64,7 @@ module.exports = (app) => {
   /*
    * 新規記事作成
    */
-  app.post('/', (req, res) => {
+  app.post('/', auth, (req, res) => {
     console.log(req.body);
     if (!req.body.title) {
       res.status(400).send('Title is empty');
@@ -51,7 +84,7 @@ module.exports = (app) => {
   /*
    * 更新画面
    */
-  app.get('/:id/update', (req, res) => {
+  app.get('/:id/update', auth, (req, res) => {
     Article.get(req.params.id).
       then((article) => {
         res.render('update', { article: article });
@@ -65,7 +98,7 @@ module.exports = (app) => {
   /*
    * 記事更新
    */
-  app.post('/:id', (req, res) => {
+  app.post('/:id', auth, (req, res) => {
     if (!req.body.title) {
       res.status(400).send('Title is empty');
       return;
@@ -87,7 +120,7 @@ module.exports = (app) => {
   /*
    * 記事削除
    */
-  app.post('/:id/delete', (req, res) => {
+  app.post('/:id/delete', auth, (req, res) => {
     Article.get(req.params.id).
       then(article => {
         return article.destroy();
@@ -101,11 +134,11 @@ module.exports = (app) => {
       });
   });
 
-  app.get('/:id/image', (req, res) => {
+  app.get('/:id/image', auth, (req, res) => {
     res.render('image', { id: req.params.id });
   })
 
-  app.post('/:id/image', upload.single('image'), (req, res) => {
+  app.post('/:id/image', auth, upload.single('image'), (req, res) => {
     Article.get(req.params.id).
       then(article => {
         article.image = req.file.buffer;

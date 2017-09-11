@@ -1,0 +1,7 @@
+CREATE TABLE `users` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `password` CHAR(128) NOT NULL,
+  `salt` CHAR(16) NOT NULL,
+  UNIQUE KEY `idx_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
