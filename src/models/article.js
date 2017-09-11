@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body'];
+    return ['title', 'body','create_at','update_at'];
   }
 
   static all() {
@@ -82,6 +82,22 @@ class Article {
       this.id = result[0].insertId;
       return this;
     });
+  }
+  destroy() {
+    return new Promise((resolve, reject) => {
+      let id = this.data.id
+      super.destroy().then((toot) => {
+        let conn = redis()
+        conn.publish('local',
+          JSON.stringify({
+            action: "delete", toot: { id: id }
+          })
+        );
+        resolve(toot);
+      }).catch((error) => {
+        reject(error);
+      })
+    })
   }
 }
 
