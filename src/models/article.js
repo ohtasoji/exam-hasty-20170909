@@ -95,6 +95,16 @@ class Article {
       return this;
     });
   }
+
+  destroy() {
+    return db.query(
+      'DELETE FROM ?? WHERE `id` = ?;',
+      [this.constructor.tableName, this.id]
+    ).then(() => {
+      this.id = null;
+      return this;
+    });
+  }
 }
 
 module.exports = Article;

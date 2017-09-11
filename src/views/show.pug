@@ -7,3 +7,5 @@ block content
 
   p
     a(href=`/${article.id}/update`) 編集
+    form(action=`/${article.id}/delete` method="POST")
+      button(type="submit") 削除

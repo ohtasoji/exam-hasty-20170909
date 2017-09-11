@@ -69,6 +69,23 @@ module.exports = (app) => {
   });
 
   /*
+   * 記事削除
+   */
+  app.post('/:id/delete', (req, res) => {
+    Article.get(req.params.id).
+      then(article => {
+        return article.destroy();
+      }).
+      then(article => {
+        res.redirect('/');
+      }).
+      catch((error) => {
+        app.logger.error(error);
+        res.status(404).send("Not Found");
+      });
+  });
+
+  /*
    * 個別記事表示
    */
   app.get('/:id', (req, res) => {
