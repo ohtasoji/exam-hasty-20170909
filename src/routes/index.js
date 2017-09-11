@@ -5,11 +5,14 @@ module.exports = (app) => {
    * DB に保存されている Article のタイトル一覧を表示
    */
   app.get('/', (req, res) => {
-    let articles = [{
-      id: 1,
-      title: "hoge",
-    }];
-    res.render('index', { articles: articles });
+    Article.all().
+      then((articles) => {
+        res.render('index', { articles: articles });
+      }).
+      catch((error) => {
+        app.logger.error(error);
+        res.status(500).send('Error');
+      });
   });
 
   /*
