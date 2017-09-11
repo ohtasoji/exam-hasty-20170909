@@ -69,6 +69,19 @@ class Article {
     )
   }
 
+  create_at() {
+    let nowTime = new Date();
+    let year = nowTime.getFullYear();
+    let month = nowTime.getMonth();
+    let week = nowTime.getDay();
+    let day = nowTime.getDate();
+
+    return db.query(
+      "ALTER TABLE article ADD [COLUMN] create_at;",
+      [this.constructor.tableName, this.data, this.id]
+    )
+  };
+
   create() {
     let values = [];
     this.constructor.columns.forEach((column) => {
