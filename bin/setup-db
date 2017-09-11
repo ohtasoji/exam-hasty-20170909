@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dir="$(dirname $0)/../sql"
+sqls="${dir}/*.sql"
+
+cat ${sqls} | mysql -u root

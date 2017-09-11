@@ -1,0 +1,31 @@
+{
+  "name": "exam-hasty-20170909",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
+    "lint": "esw -w src test"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "kuromoji": "^0.1.1",
+    "log4js": "^2.3.3",
+    "mysql-promise": "^4.1.0",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "eslint-watch": "^3.1.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ]
+  }
+}

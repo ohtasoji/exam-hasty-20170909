@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS `exam-hasty-20170909`;
+CREATE DATABASE `exam-hasty-20170909`;
+USE `exam-hasty-20170909`;
