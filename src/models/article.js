@@ -22,6 +22,21 @@ class Article {
     });
   }
 
+  static getPage(page) {
+    const COUNT_IN_PAGE = 50;
+    let offset = page * COUNT_IN_PAGE;
+    return db.query(
+      "SELECT * FROM ?? ORDER BY `updated_at` DESC LIMIT ? OFFSET ?",
+      [this.tableName, COUNT_IN_PAGE, offset]
+    ).then((result) => {
+      let rows = result[0];
+      let articles = rows.map((row) => {
+        return new this(row);
+      });
+      return articles;
+    });
+  }
+
   static get(id) {
     return db.query(
       "SELECT * FROM ?? WHERE `id` = ?",

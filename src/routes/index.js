@@ -5,9 +5,10 @@ module.exports = (app) => {
    * DB に保存されている Article のタイトル一覧を表示
    */
   app.get('/', (req, res) => {
-    Article.all().
+    let page = Number(req.query.page) || 1;
+    Article.getPage(page - 1).
       then((articles) => {
-        res.render('index', { articles: articles });
+        res.render('index', { articles: articles, page: page });
       }).
       catch((error) => {
         app.logger.error(error);
