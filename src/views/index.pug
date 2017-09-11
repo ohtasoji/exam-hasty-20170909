@@ -2,7 +2,12 @@ extends layout.pug
 
 block content
   ul
+  a(href=`/new`) 
+    button NEW !!
     for article in articles
-      a(href=`/${article.data.id}`) #{article.data.title}
-      form(action=`/${article.data.id}/?_method=delete` method="post")
-        input(type="submit" value="delete")
+      div
+        a(href=`/${article.data.id}`) #{article.data.title}
+        form(action=`/${article.data.id}/?_method=delete` method="post")
+          input(type="submit" value="delete")
+        a(href=`/set/${article.data.id}`)
+          button edit

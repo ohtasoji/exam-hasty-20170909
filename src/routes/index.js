@@ -23,12 +23,12 @@ module.exports = (app) => {
    */
   app.post('/', (req, res) => {
     console.log(req.body);
-    let article = new Article(req.body);
-    article.save().
-      then((article) => {
+    let article = new Article({
+      body: req.body.body,
+      title: req.body.title
+    }).save().then((article) => {
         res.redirect(`/${article.id}`);
-      }).
-      catch((error) => {
+      }).catch((error) => {
         app.logger.error(error);
         res.render('new', { article: article });
       });
