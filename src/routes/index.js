@@ -37,6 +37,38 @@ module.exports = (app) => {
   });
 
   /*
+   * 更新画面
+   */
+  app.get('/:id/update', (req, res) => {
+    Article.get(req.params.id).
+      then((article) => {
+        res.render('update', { article: article });
+      }).
+      catch(() => {
+        app.logger.error(error);
+        res.status(404).send("Not Found");
+      });
+  });
+
+  /*
+   * 記事更新
+   */
+  app.post('/:id', (req, res) => {
+    Article.get(req.params.id).
+      then(article => {
+        article.assign(req.body);
+        return article.save();
+      }).
+      then(article => {
+        res.redirect('/' + article.id);
+      }).
+      catch((error) => {
+        app.logger.error(error);
+        res.status(500).send('Error');
+      });
+  });
+
+  /*
    * 個別記事表示
    */
   app.get('/:id', (req, res) => {
