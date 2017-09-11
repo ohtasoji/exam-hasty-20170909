@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body'];
+    return ['title', 'body', 'created_at', 'updated_at'];
   }
 
   static all() {
@@ -63,6 +63,7 @@ class Article {
   }
 
   update() {
+    this['updated_at'] = new Date();
     return db.query(
       "UPDATE ?? SET ? WHERE `id` = ?",
       [this.constructor.tableName, this.data, this.id]
@@ -70,6 +71,8 @@ class Article {
   }
 
   create() {
+    this['created_at'] = new Date();
+    this['updated_at'] = new Date();
     let values = [];
     this.constructor.columns.forEach((column) => {
       values.push(this[column]);
