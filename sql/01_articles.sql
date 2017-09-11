@@ -3,7 +3,23 @@ DROP TABLE IF EXISTS `articles` ;
 CREATE TABLE `articles` (
   `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `body` TEXT
+  `body` TEXT,
+  `created_at` DATETIME ,
+  `updated_at` DATETIME 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TRIGGER
+        articles_insert_trigger
+    BEFORE INSERT ON
+        articles
+    FOR EACH ROW
+    SET
+        new.created_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER
+        articles_update_trigger
+    BEFORE INSERT ON
+        articles
+    FOR EACH ROW
+    SET
+        new.updated_at = CURRENT_TIMESTAMP;
