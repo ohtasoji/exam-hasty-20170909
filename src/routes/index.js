@@ -25,6 +25,10 @@ module.exports = (app) => {
    */
   app.post('/', (req, res) => {
     console.log(req.body);
+    if (!req.body.title) {
+      res.status(400).send('Title is empty');
+      return;
+    }
     let article = new Article(req.body);
     article.save().
       then((article) => {
@@ -54,6 +58,10 @@ module.exports = (app) => {
    * 記事更新
    */
   app.post('/:id', (req, res) => {
+    if (!req.body.title) {
+      res.status(400).send('Title is empty');
+      return;
+    }
     Article.get(req.params.id).
       then(article => {
         article.assign(req.body);
