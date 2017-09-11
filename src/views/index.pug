@@ -3,6 +3,6 @@ extends layout.pug
 block content
   ul
     for article in articles
-      li
-        for article in articles
-          a(href=`/${article.data.id}`) #{article.data.title}
+      a(href=`/${article.data.id}`) #{article.data.title}
+      form(action=`/${article.data.id}/?_method=delete` method="post")
+        input(type="submit" value="delete")

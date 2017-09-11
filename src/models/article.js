@@ -94,6 +94,16 @@ class Article {
       return this;
     });
   }
+
+  destroy() {
+    if(!this.id) {
+      return;
+    }
+    return db.query(
+      "DELETE FROM ?? WHERE `id` = ?",
+      [this.constructor.tableName, this.id]
+    )
+  }
 }
 
 module.exports = Article;

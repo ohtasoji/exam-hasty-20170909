@@ -59,6 +59,14 @@ module.exports = (app) => {
     })
   })
 
+  app.delete("/:id", (req, res) => {
+    article_id = req.params.id;
+    new Article({
+      id : article_id
+    }).destroy()
+    res.redirect("/")
+  })
+
   /*
    * 個別記事表示
    */
