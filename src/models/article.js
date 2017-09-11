@@ -11,7 +11,7 @@ class Article {
 
   static all() {
     return db.query(
-      "SELECT * FROM ??",
+      "SELECT * FROM ?? ORDER BY `updated_at` DESC",
       [this.tableName]
     ).then((result) => {
       let rows = result[0];
