@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser("ura"));
+
 app.logger = require('./logger');
 app.use(app.logger.express);
 

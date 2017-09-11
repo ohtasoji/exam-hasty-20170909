@@ -1,17 +1,17 @@
 const Article = require('../models/article');
-
 module.exports = (app) => {
   /*
    * DB に保存されている Article のタイトル一覧を表示
    */
   app.get('/', (req, res) => {
-    let articles = [{
-      id: 1,
-      title: "article",
-    }];
-    res.render('index', { articles: articles });
+    for (let i = 1; i < 50; i++) {
+      let articles = [{
+        id: [i],
+        title: "article",
+      }];
+      res.render('articles', { articles: articles });
+    }
   });
-
   /*
    * 新規作成画面
    */
@@ -39,7 +39,7 @@ module.exports = (app) => {
   /*
    * 個別記事表示
    */
-  app.get('/article/:id', (req, res) => {
+  app.get('/', (req, res) => {
     Article.get(req.params.id).
       then((article) => {
         res.render('show', { article: article });
@@ -52,7 +52,7 @@ module.exports = (app) => {
 
 
   //更新
-  app.get("/article/:id/edit", function (req, res) {
+  app.get("/edit", function (req, res) {
     let id = req.params.id;
     let article;
     app.locals.dbp.query(
@@ -87,29 +87,29 @@ module.exports = (app) => {
       res.status(404).send(error.message)
     })
   });
-  app.put("/article/:id", function (req, res) {
+  app.put("/:id", function (req, res) {
     let id = req.params.id;
     let title = req.body.title;
     let body = req.body.body;
 
     app.locals.dbp.query(
       "UPDATE `articles` SET `title` = ? ,`body` = ? WHERE `id` = ?",
-      [title,body,id]
-    ).then(function(data){
+      [title, body, id]
+    ).then(function (data) {
       res.redirect(`/article/${id}`);
-    }).catch(function(error){
+    }).catch(function (error) {
       res.status(403).send(error.message);
     })
   });
-  app.delete("/article/:id", function (req, res) {
+  app.delete("/:id", function (req, res) {
     let id = req.params.id;
 
     app.locals.dbp.query(
       "DELETE FROM `articles` WHERE `id` = ?",
       [id]
-    ).then(function(data){
+    ).then(function (data) {
       res.redirect('/article');
-    }).catch(function(error){
+    }).catch(function (error) {
       res.status(403).send(error.message);
     })
   });

@@ -6,7 +6,11 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body','create_at','update_at'];
+    return ['title', 'body', 'create_at', 'update_at'];
+  }
+
+  static create(user, body) {
+    return new this({ id:id, user_id: user.data.id, body: body }).save();
   }
 
   static all() {
@@ -28,7 +32,7 @@ class Article {
       [this.tableName, id]
     ).then((result) => {
       let rows = result[0];
-      if(rows.length === 0) {
+      if (rows.length === 0) {
         throw new Error(`${id} is not found`);
       }
 
@@ -40,14 +44,14 @@ class Article {
   }
 
   constructor(data = {}) {
-    if(data && data['id']) {
+    if (data && data['id']) {
       this.id = data.id;
     }
     this.assign(data);
   }
 
   assign(data) {
-    if(!data) { return };
+    if (!data) { return };
 
     this.constructor.columns.forEach((key) => {
       this[key] = data[key];
@@ -55,7 +59,7 @@ class Article {
   }
 
   save() {
-    if(this.id) {
+    if (this.id) {
       return this.update();
     } else {
       return this.create();
@@ -83,6 +87,7 @@ class Article {
       return this;
     });
   }
+
   destroy() {
     return new Promise((resolve, reject) => {
       let id = this.data.id

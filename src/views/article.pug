@@ -1,0 +1,13 @@
+extend layout.pug
+block content
+  .page-header
+    h1 #{article.title}
+  
+  div!= article.html 
+
+  p 書いた人: #{article.user.email}
+
+  div
+    form(action=`/articles/${article.id}?_method=delete` method="post")
+      a.btn.btn-default(href=`/articles/${article.id}/edit`) 編集
+      button.btn.btn-danger(type='submit') 削除

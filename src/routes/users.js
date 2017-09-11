@@ -10,7 +10,6 @@ module.exports = function (app) {
     let email = req.body.email;
     let pass = req.body.password;
 
-    let salt = crypto.randomBytes(8).toString('hex');
     let sha512 = crypto.createHash('sha512');
     sha512.update(salt);
     sha512.update(pass);
@@ -41,7 +40,6 @@ module.exports = function (app) {
         // res.redirect(302,"/login");
 
         let user = result[0];
-        let salt = user.salt;
         let sha512 = crypto.createHash('sha512');
         sha512.update(salt);
         sha512.update(password);
