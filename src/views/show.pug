@@ -4,3 +4,7 @@ block content
   h1= article.title
 
   != article.body
+
+  div
+    form(action=`/articles/${article.id}?_method=delete` method="post")
+      button.btn.btn-danger(type="submit") 消去

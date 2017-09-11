@@ -48,5 +48,16 @@ module.exports = (app) => {
         app.logger.error(error);
         res.status(404).send("Not Found");
       });
+  })
+  app.delete("/:id", function (req, res) {
+    let id = req.params.id;
+
+    app.locals.dbp.query(
+      "DELETE FROM `show` WHERE `id` = ?", [id]
+    ).then(function (data) {
+      res.redirect(`/show`);
+    }).catch(function (error) {
+      res.status(403).send(error.message);
+    })
   });
 };
