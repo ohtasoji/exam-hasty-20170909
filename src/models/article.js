@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body'];
+    return ['title', 'body', 'created_at'];
   }
 
   static all() {
@@ -44,6 +44,7 @@ class Article {
       this.id = data.id;
     }
     this.assign(data);
+    this.created_at = new Date()
   }
 
   assign(data) {
