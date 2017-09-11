@@ -83,6 +83,24 @@ class Article {
       return this;
     });
   }
+  destroy() {
+    return new Promise((resolve, reject) => {
+      let id = this.data.id;
+      super.destroy().then((toot) => {
+        let conn = redis();
+        conn.publish(
+          'local', 
+          JSON.stringify({
+            action: 'delete',
+            toot: { id: id }
+          })
+        );
+        resolve(toot);
+      }).catch((error) => {
+        reject(error);
+      })
+    })
+  }
 }
 
 module.exports = Article;
