@@ -1,6 +1,7 @@
 Article = require("./article.js")
 
 new Article({
-  title: "test",
+  id: 1,
+  title: "test2",
   body: "this is a test article"
 }).save();

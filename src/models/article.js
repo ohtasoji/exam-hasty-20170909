@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body', 'created_at'];
+    return ['title', 'body', 'updated_at', 'created_at'];
   }
 
   static all() {
@@ -43,19 +43,24 @@ class Article {
     if(data && data['id']) {
       this.id = data.id;
     }
-    this.assign(data);
-    this.created_at = new Date()
+    this.data = this.assign(data);
+    this.data["updated_at"] = new Date()
   }
 
   assign(data) {
+    console.log("assaign !!")
     if(!data) { return };
-
+    console.log(this.constructor.columns)
     this.constructor.columns.forEach((key) => {
-      this[key] = data[key];
+      if(!key == "date_created") {
+        this[key] = data[key];
+      }
     });
+    return data;
   }
 
   save() {
+    console.log("save !!")
     if(this.id) {
       return this.update();
     } else {
@@ -64,6 +69,9 @@ class Article {
   }
 
   update() {
+    console.log("update!!!");
+    console.dir(this.data)
+    
     return db.query(
       "UPDATE ?? SET ? WHERE `id` = ?",
       [this.constructor.tableName, this.data, this.id]
@@ -72,9 +80,11 @@ class Article {
 
   create() {
     let values = [];
+    this.created_at = new Date();
     this.constructor.columns.forEach((column) => {
       values.push(this[column]);
     });
+
 
     return db.query(
       "INSERT INTO ?? (??) VALUES (?)",
