@@ -50,6 +50,9 @@ class Article {
     if(!data) { return };
 
     this.constructor.columns.forEach((key) => {
+      if (this[key] && !data[key]) {
+        return;
+      }
       this[key] = data[key];
     });
   }
@@ -64,10 +67,16 @@ class Article {
 
   update() {
     this['updated_at'] = new Date();
+
+    let data = {};
+    this.constructor.columns.forEach((column) => data[column] = this[column]);
+
     return db.query(
       "UPDATE ?? SET ? WHERE `id` = ?",
-      [this.constructor.tableName, this.data, this.id]
-    )
+      [this.constructor.tableName, data, this.id]
+    ).then((result) => {
+      return this;
+    });
   }
 
   create() {
