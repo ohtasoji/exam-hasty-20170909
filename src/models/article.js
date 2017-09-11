@@ -1,5 +1,6 @@
 const db = require('../db');
 
+// 記事
 class Article {
   static get tableName() {
     return "articles";
@@ -74,6 +75,8 @@ class Article {
     this.constructor.columns.forEach((column) => {
       values.push(this[column]);
     });
+
+    
 
     return db.query(
       "INSERT INTO ?? (??) VALUES (?)",
