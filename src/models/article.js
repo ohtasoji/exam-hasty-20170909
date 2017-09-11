@@ -63,9 +63,16 @@ class Article {
   }
 
   update() {
+    let date = new Date();
+    date = date.getUTCFullYear() + '-' +
+      ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+      ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+      ('00' + date.getUTCHours()).slice(-2) + ':' + 
+      ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+      ('00' + date.getUTCSeconds()).slice(-2);
     return db.query(
       "UPDATE ?? SET ? WHERE `id` = ?",
-      [this.constructor.tableName, this.data, this.id]
+      [this.constructor.tableName, this.data, date, this.id]
     )
   }
 
