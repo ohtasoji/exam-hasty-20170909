@@ -1,0 +1,25 @@
+extends layout.pug
+block head
+  mate(cherset="UTF-8")
+  //- link(rel="stylesheet" href="/styles/login.css")
+  title ログイン
+block content
+  .row
+    .col-md-6.col-md-offset-3
+      .page-header
+        h1 BLOGサイト〜
+        h2 ログイン
+      form(action="/login" method="post")
+        .form-group
+          .input-group
+            span.input-group-addon
+              i.glyphicon.glyphicon-envelope
+            input.form-control(type="email" name="email" placeholder="メールアドレス")
+        .form-group
+          .input-group
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            input.form-control(type="password" name="password" placeholder="パスワード")
+        .form-group
+          input.btn.btn-primary.btn-lg(type="submit" value="ログイン")
+        p
