@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+  form(action=`/${id}/image` method="post" enctype="multipart/form-data")
+    div
+      input(type="file", name="image" accept="image/png")
+    div
+      button(type="submit") イメージ投稿

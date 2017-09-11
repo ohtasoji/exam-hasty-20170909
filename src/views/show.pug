@@ -5,7 +5,11 @@ block content
 
   != article.body
 
+  if article.image
+    p: img(src=`data:image/png;base64,${article.image.toString('base64')}`)
+
   p
     a(href=`/${article.id}/update`) 編集
+    a(href=`/${article.id}/image`) 画像投稿
     form(action=`/${article.id}/delete` method="POST")
       button(type="submit") 削除

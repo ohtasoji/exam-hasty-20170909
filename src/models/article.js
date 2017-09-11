@@ -6,7 +6,7 @@ class Article {
   }
 
   static get columns() {
-    return ['title', 'body', 'created_at', 'updated_at'];
+    return ['title', 'body', 'image', 'created_at', 'updated_at'];
   }
 
   static all() {

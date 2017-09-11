@@ -1,4 +1,8 @@
 const Article = require('../models/article');
+const multer = require('multer');
+let upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 module.exports = (app) => {
   /*
@@ -95,6 +99,25 @@ module.exports = (app) => {
         app.logger.error(error);
         res.status(404).send("Not Found");
       });
+  });
+
+  app.get('/:id/image', (req, res) => {
+    res.render('image', { id: req.params.id });
+  })
+
+  app.post('/:id/image', upload.single('image'), (req, res) => {
+    Article.get(req.params.id).
+      then(article => {
+        article.image = req.file.buffer;
+        return article.save();
+      }).
+      then(article => {
+        res.redirect('/' + article.id);
+      }).
+      catch((error) => {
+        app.logger.error(error);
+        res.status(404).send("Not Found");
+      })
   });
 
   /*
